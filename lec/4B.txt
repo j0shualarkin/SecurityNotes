@@ -1,0 +1,164 @@
+/// Wrapping up authentication & starting access control
+
+challenge and resoinse can also use timestamps
+
+----
+
+Kerberos
+ * trusted 3rd party authe. protoclol designed for tcp/ip networks
+   - based on Needham-Schroeder + timestamp
+
+ * kerberos ticket
+   - an authe./access control token with uername service, time and control info
+
+ * actors in kerberos system
+    - clients 
+    - kerberos server
+    - ticket-granting server
+    - other servers
+
+Initiating a Kerberos session
+- Alice wants to log-in to email account
+
+1. alice to kerberos server: send identity
+2. kerberos retrieve privilege and secret dervied from her password 
+3. ticket-granting server gen. session key 
+4. kerberos send ticket and session key to alice
+   (ticket is privileges and what server she can access)
+   message is sent encrypted via a password (or secret dervied from pw)
+5. kerberos sends session key to ticket-granting server
+   encrypted under KS-TGS key
+
+obtain a ticket to access a server
+
+alice sends request to access F, and her ticket
+TGS gen. another session key for server F , and a ticket encrypted under key TGS-F 
+alice sends request for service and ticket to otherservice F 
+  (message encry. under the newest session key)
+
+Security Strengths of Kerberos
+* no password passing on network
+* protect against spoofing
+* limited peroid of validity
+* time stamp to rpevent replay attack
+* provide mutual authe.
+
+Vulernabilities
+* require continuous availability of a trusted TGS
+* require a trusted relation b/t TGS and F
+* require timely transactions
+* a subverted workstation saves password
+* password guessing works
+* kerberos does not scale well
+
+===================================
+         Access Control
+===================================
+Defn: a process by which use of system resources is regulated according to a security 
+policy and is permitted only by authorized entities (users, programs processes, or other systems) 
+according to that policy
+
+(another defn)
+process of granting or denying specific requests to: 
+  1. obtain and use info and rleated ifo processing serves
+  2. enter specific physical facility
+
+access control policy - set of rules that dictate type of access which are permitted and by whom
+type of access - read write execute 
+when you can access
+by whome
+
+Categories                            -- Based On 
+Discretionary access control    (DAC) -- identity of requestor, access rules
+Mandatory acces control         (MAC) -- comparing security labels with security clearances
+Role-based aces control        (RBAC) -- user role in the system, access of role
+Attribute-based access control (ABAC) -- attributes of user, target resource, system's environmental conditions
+
+
+=====
+
+Basic Elements Of Access Control
+
+subject wants to gain access to an object and have some rights with that object
+
+1. subject (entity capable of accessing objects)
+  - owner , group , world
+
+2. object (resource to which access is controlled)
+  - e.g., records, blocks, pages, segments, files, ...
+
+3. access right (the way win which a sbject may access an object)
+  - e.g., read, write, execute, delete, create, search
+
+
+Two types of access contro lschemes
+
+discretionary
+ - owner of object can decide who can access that object
+ - enforce the specified access control
+ - owner can set access rules/policy
+
+
+mandatory
+ - when u are owner, u wont be able to set a rule
+ - policy set by 3rd party
+
+
+=====
+Military seucirty policy
+- enforce both _sensitivity_ and _need to know_ requirements 
+- example of mandatory access control
+
+sensitivity  
+ - classify info into several ranks
+     + unclassified, restricted, confidential, secret, top secret 
+ - higher-level info is more sensitive
+
+need to know
+ - only party associted with project needs to know info 
+    "comparments"
+ - restrict projects to a specific compartment
+
+
+clearance : classification of a subject (person) seeking info 
+dominance relation : a subject can access object iff their rank is at least as large as rank of object 
+  and compartment of the subject must include the compartment of the object
+
+? access policies 
+ - the clearance lvel ..............
+
+just because you have the clearance, 
+  if you are not trying to access a compartment/project, 
+  you don't get to know anything on (or below) your clearance level
+
+====
+discretionary access control
+ - most generic mechanism is access control matrix 
+   - used by OS and database mgmt system
+ - matrix structure:  
+    colm for objects  (files, memory, comp. resources)
+    rows for subjects (users, programs, ...)
+    access control policies are presented in intersections
+ - wastes a lot of space 
+    + have to enumerate for all objects and subjects
+    + lots of time subject has nothing to do with object 
+    + large memory requirements 
+
+Access control lists (ACL) and capabilities
+
+ACL
+ - essentially, 1 colm of acces scontrol matrix 
+ - represent access of an ojbect
+ - pros:
+    use with data-oriented policies
+    simple implemntation
+ - cons:
+   removing a user is expensive
+      go thru each file, remove their name from each file 
+   difficult to delegate rights
+
+
+
+
+
+

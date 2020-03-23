@@ -1,0 +1,219 @@
+//////////////////////
+/// Malware Lecture
+/// 9 March 2020
+/// B433
+//////////////////////
+
+Malware : malicious software designed to damage or disrupt a system 
+ - can modify or even delete files, squander computing resources, spy on information
+ -- squander resources for some purpose, like unauthorized cryptocurrency mining
+
+---------------
+Types of Malware 
+---------------
+- virus 
+  + parasitic malicious code to legitimate software, floppy floppy (?)
+
+- worm
+  + program spreads thru the Internet
+
+- spyware, botnet, backdoor...
+  + use your resources [to get money]
+  ++ private data, cpu cycles, bandwidth, etc.
+
+================================================================================
+
+-------------------
+History of Malware
+-------------------
+
+1940s: von Neuman described self-reproducing automata 
+ - important feature of malware
+
+1962: Bell Lab fellows created "Darwin" (darvin?)
+ - program to trace and destroy opponents' program and multiply itself
+
+1970s: the Creeper worm was detected on ARPANET 
+ - apranet is ancestor of modern internet 
+ - self-spreading program ; early version of worm
+ - automatically gain access and display a message 
+ - the Reaper came out: searched and destroyed every Creeper it detected 
+
+1986: first real-world spread of virus across "IBM-compatible" computers
+ - called Brain 
+ - developed by 19 y/o Pakistani programmer and his brother A
+ -- purpose was experimental and to expose weaknesses 
+ -- virus included a text with brothers' names, address and telephone number 
+ - later another version of Brain came out that destroyed files on your computer 
+
+1988: Morris worm 
+
+1990: first polymorphic virus: the Chameleon family
+
+1999: worm spread throug hemails 
+ - purpose is more to flex tech skills  - Prof Wang 
+ - [[golden age of worm-ware]]
+
+2001: worm epidemics happens:
+ - examples: Code-Red (brought down white house webpage, forced them to move their webpage)
+    -- Nimda 
+ - spread through ICQ, IRC, MSN messenger 
+
+2003: Sapphire or Slammer 
+ - a lot faster now, took 30 minutes to spread across the world 
+ -- had a bug, if it didn't have one it could've been faster
+ --- in its pseudo-random number generator
+ - would look at all of IPv4 space to find new/next targets
+ - aggressive spreading uses a lot of bandwidth (exhausted) 
+ -- causes an [accidental] DoS
+
+2004: Mydoom
+ - get an email, click on attachment and become "zombie"
+ -- then you're computer is used in DoS attack
+
+Now (few years ago):
+ - went from showing off to trying to make money
+ -- spyware related ID theft, phishing ...
+ -- botnet based spam, extortion ...
+ -- today, you can buy access to thousands of hosts in black markets at $0.03/computer
+
+IoT malware: 
+ - infect IoT devices and launch DoS attack
+ - to infect: list of vulnerabilities to go through 
+ -- device that only used default user id/password are easily acessible 
+ -- you should read manual and figure out how to change the passwords
+ -- attackers will have resource on the default passwords and can access
+ 
+2014/2018: [somewhere in that range] 
+ - Rutgers had a DoS atack 
+ - took advantage of Single-Sign-On Service 
+ - journalists said it could have been _some person_, then they got DDoS'd // journalists or the named person?
+ -- FBI ultimately found the culprits 
+
+
+================================================================================
+-----------------
+Morris Worm
+-----------------
+
+caused damage accidentally 
+
+can duplicate/spread itself 
+
+used vulnerabilities:
+ - debug option of sendmail
+ - gets, used in the implementation of finger
+ - remote logins .rhost files 
+
+took control of system programs; spread really fast/far
+ @ Berkeley on their Unix system
+
+big factor in the creation of the Computer Emergency Response Team (CERT)
+
+perp was convicted under Fraud and Abuse Act of 1988
+ - 3 yrs probation, 400 hrs comm service, $10050 fine and cost of his supervision
+ - now a professor at MIT, lol
+
+================================================================================
+                                 ----------
+                                  Viruses
+                                 ----------
+
+Where do they hide?  How to trigger them?
+* Program virus -- whenever the program is run
+
+* Boot sector virus --
+
+* Other, e.g. macro virus
+-- some place on hard disk
+-- executable code in documents, such as word macro
+
+
+---------------
+Program Virus
+---------------
+
+- append its code to the beginning of a program
+ -- system will run the virus code first and then move to the program code
+
+- insert its code to the appropriate place of a program
+-- eliminate the inconsistency of program size
+
+- replace some code in a program
+-- requires in-depth knowledge of target program
+
+- add jumps/gotos in the code to point to the virus code
+
+* has become more rare over time bc our software systems now are much safer than they used to be
+** running code on Android/iOS is sandboxed, so programs have no communication with each other 
+** and app is served off AppStore which does checks; GooglePlay Store is a bit looser than Apple but still does some checks (?)
+
+* you could download app, decompile it, 
+  add code, recompile then upload as a new app to marketplace
+
+---------------
+Boot Virus
+---------------
+
+- hides inside system bootstrap mechanism
+-- e.g., between firmware and bootstrap loader 
+- activates whenever the system reboots, runs its malware, 
+-- then run the remaining part of start-up procedure
+
+---------------
+Other
+---------------
+
+- use file pointers 
+-- attacker change pointer to file to point to virus, then have virus point to the file 
+
+- macro in MS office
+-- virus hides inside macro, startup macro runs everytime the program is executed
+
+- libraries 
+-- hide in a function that allows virus to be trigered whenever a program calls that function
+--- malicious javascripts
+
+
+================================================================================
+
+---------------
+Virus Signatures
+---------------
+
+- virus cannot be completely invisible; code must be stored somewhere
+
+- code executes in some way, using certain method to spread
+-- leaves traces on the data it manages, called *signatures*
+
+- signature can be used to identify the existence of that virus
+
+----------------------------------------
+Anti-Antivirus & Anti-Anti-Antivirus
+----------------------------------------
+- a simple virus is easy to detect
+-- check its static isngature, a scanner can identify the virus
+
+Anti-Antivirus
+- dynamically change their signatures to evade detection
+-- e.g., encrypte dviruses and polymorphic viruses
+
+Anti-Anti-Antivirus
+- development of virus detection technologies against these advanced viruses
+
+----------------------------------------
+Virus Concealment Categories
+----------------------------------------
+encryption virus - use encryption for hiding its content
+ -- idea: hiding the fixed signatures by scrambling the virus
+ -- each malware uses a key to encrypt the body 
+ -- so virus needs key, code that encrypts, and code that decrypts 
+** can capture by finding the decrypter code, it must be saved as plaintext in the virus
+
+stealth - use code mutation, compression, et.c to hide
+
+polymorphic - create functionally-equivalent copies
+
+metamorphic virus - mutates with every infection
+
+================================================================================

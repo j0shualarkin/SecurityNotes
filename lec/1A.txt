@@ -1,0 +1,51 @@
+XiaoFeng (shou-feng) Wang
+xw7@indiana.edu
+http://seclab.soic.indiana.edu/B433-S20/index.php
+
+Software and System Security
+
+lots of kinds of security:
+system  network  ai  iot  database 
+
+otherly-wise
+
+Participation (15 %)
+* 2 unexplained absences 
+
+Final Exam (20 %)
+* No midterm
+
+6 Labs (20 %)
+Labs in group of 2 
+Reports due 2 weeks after the lab session
+
+
+Quizzes:     (30 %)
+1 - 29 Jan - Basics
+2 - 5  Feb - Authentication
+3 - 17 Feb - Access control
+4 - 2  Mar - SQL injection
+5 - 9  Mar - Web security
+6 - 23 Mar - Malware
+7 - 1  Apr - Buffer Overflow 1 
+8 - 8  Apr - Buffer Overflow 2
+9 - 13 Apr - Software Dev Lifecycle
+* Drop 2 lowest quiz scores
+* Read all readings before class
+
+Reading Project:    (15 %)
+Proposal - 24 Feb
+Talk     - 15 Apr
+Final    - 24 Apr
+* 6 pages if solo, 10 pages if partner
+* Bonus (could be) given to the project involving implementation and evaluation
+
+Overview:
+basic concepts
+authentication and access control
+database and web security
+malware
+buffer overflow and defense
+secuirty dev lifecycle
+
+Computer Emergency Response Team

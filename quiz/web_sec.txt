@@ -1,0 +1,50 @@
+web sec in general:
+client-server communication sec : SSL 
+
+server sec : SQLi, XSS, XSRF
+
+client sec : drive-by downloads 
+
+* cookies are valuable
+* same origin policy -- scripts on pages from same domain can access the pages 
+    -- diff domains can't access each other 
+
+========
+
+xss attacks generally mean to do some sort of transfer of information about yourself to the attacker 
+
+often XSS attacks are written into HTML files, either as <script></script> or another form (see OWASP page: https://owasp.org/www-community/attacks/xss/  )
+
+3 kinds of XSS attacks
+reflective (non-persistent)
+-- "data provided by a Web client is used by server-side scripts to generate a page for that user "
+-- code is injected at the time a user sends a request and when the request is served back to them the HTML of a webpage gets executed, this html has the injected (attacker) code 
+and it gets treated like it has come from a trusted source (b/c on the page) 
+++ could be like a prefilled out form that someone has and when you search something/enter your account number they can get your information/control your browser session
+++ click a link that has a script in it; executes in your browser and has access to resources (like cookie); email the cookie to attacker 
+-- when a user cliks something or submits a form, more code gets added to it so when it gets served back, the attack is executed 
+
+stored (persistent)
+-- attack has been uploaded to a database and you somehow (tricked) access the database, then the code (attack) stored in the DB gets executed upon your retrieval 
+++ mallory posts a message to a message board -- when Bob reads, Mallory's script gets his auth cookie
+
+DOM-based 
+-- problem is in the page's client-side code/script
+
+==========
+
+Cross-Site Request Forgery
+
+when you don't log off of your sensitive accounts (like bank accounts)
+
+target state-changing attacks -- move money, reset an email, etc 
+
+trick people into submitting a request/giving you info for you to submit request on their behalf
+
+prevention:
+- place one-time key in page/form
+- check one-time key in POST (confirm part of ongoing session for particular user)
+- check referer headers (altho sometimes filtered by prviacy settings)
+
+recc:
+- strict referer validation

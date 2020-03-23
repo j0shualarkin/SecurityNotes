@@ -1,0 +1,125 @@
+//////////////////////
+/// Malware Lecture 2
+/// 11 March 2020
+/// B433
+//////////////////////
+
+
+----------------------
+Basic Encrypted Virus
+----------------------
+
+- encrypted virus changes its main body dynamically, using different keys
+
+always has a decryptor
+
+each infection, you could use a different decryptor 
+
+if use the same, you can catch the static signature
+
+------------------
+Polymorphic Virus
+------------------
+changes its decryptor dynamically 
+-- has a mutation engine along with a decryptor and encrypted body
+
+- mutation engine : randomizing the decryptor by adding some redundant 
+  code to simulate a legit program
+
+   -- rearrange the order of the instructions and add GOTOs that make sure the program
+     is serialized properly
+   -- can also add random junk (NOOPs) to instructions, make the versions of the virus 
+      look different 
+      ==> harder to find pattern/signature
+
+   -- on x86 you can make some instructions act like other instructions and have your 
+	code make decision on which instruction to run 
+	(""replacement of equiv instruction"")
+
+
+------------------
+Scale of problem
+------------------
+
+- first outbreak of polym virus: Tequila and Maltese Amoeba in 1991
+- virus author, Dark Avenger, distro'd the 1st mutation engine (MtE) thru the internet
+- now, it's common for virus authors to distro their ME to help others build their viruses
+-- building blocks to help people make their malware
+
+
+----------------------------
+Detecting Polymorphic Virus
+----------------------------
+- statically: study code and the mutation engine 
+
+- hard to do statically; let's run the program
+- if you load into memory, you have to decrypt to run it
+  => then payload is exposed, and you can look at memory to find signature
+
+Generic Decryption : method for dynamic detection
+- virtual machine based detection
+- "wait until moment code has been fully decrypted, then go to memory 
+   and find out the signature"
+- want to find what areas its reading/writing to/from
+
+Why do we still need to check signature?
+There are legit programs and DLL (dynamic linking library) that do similar things 
+(in terms of writing then jumping) so the behavior is not necessarily malicious. 
+Thus you must check for signature to determine if it is valid/safe program.
+
+Weakness in this approach:
+- performance -- have to wait for a long time 
+    -- scan time could be days or months
+- malware itself can deliberately do a trick to inhibit your defense 
+- if they know youre using a VM to detect, malware can split int ochunks
+  -- decrypt first chunk, then go to second and decrypt it, and so on
+  if signature is between first and second chunk, then you won't find it
+  (only half the signature is decrypted after the first chunk ==> harder to detect)
+
+================================================================================
+----------------------------
+Virus Protection Tips
+----------------------------
+- get software from reliable source
+- open attachments when you know they're safe
+- backup system/files
+
+================================================================================
+----------------------------
+Worm Replication
+----------------------------
+- special kind of virus that spread quickly (sometimes automatically)
+- phases: Dormant, Propagation, Triggering, Execution
+- Propagation: 
+  -- search for appr. access mechanism
+     --- e.g. finding suitable removable media, examing address books
+     --- use access mechanims foudn to transfer copy ... (?)
+
+Target Discovery (scanning/fingerprinting)
+- random: probing random IP addresses in the network
+- hit-list: based on list of potential vulnerbale machiens 
+- topological : using info on an infected host
+  -- if you know topology, you can figure which machines are important 
+- local subnet : infected host is behind firewall => look for targets in local network
+
+
+----------------------------
+Worm Technologies
+----------------------------
+zero-day exploit: exploit but not known by manufacturer, 
+  maximizes the surprise and distribution
+
+
+----------------------------
+Payloads (malware action)
+----------------------------
+- data  destruction
+- real world damage (money)
+
+Attack Agents
+- Zombie, BOTS use caes:
+  -- ddos, spamming, sniffing traffic, keylogging, spreading new malware, 
+      manipulating online polls
+
+with root kit you can build your malware that uses a vm 
+-- loads your OS and files into VM making it impossible to tell your infected

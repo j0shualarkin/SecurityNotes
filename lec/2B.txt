@@ -1,0 +1,117 @@
+// No 2A.txt because of MLK Jr Day
+
+Attacks
+
+active - affect a target system's operation
+passive - learn information w/o affecting system
+insider - authorized user do bad things
+outsider - unauthorized parties gain access
+
+active attack is a replay attack
+
+passive attack is exploiting a side-channel leak
+-- put info in google health
+-- eavesdropper can gather all the encrypted information and decrypt it
+
+======
+
+CIA Triad
+
+Confidentiality - info is protected from unintended disclosure
+  data - info is not disclosed to unauth. parties
+  parties - control of one's own info disclosure
+
+Integrity - system and data are maintained in a correct and consistent condition
+  data - info and code only changed by auth. parties
+  system - system operates w/o unauth. interference
+
+Availability - systems and data are usable when needed
+
+======
+
+More security goals....
+
+* a secure system needs to balance confidentiality, integrity and availability
+* these goals may overlap or be exclusive, dependent on the situations
+
+--- making lots of backups is good for availability but raises risk of confidentiality compromise
+
+Additional security goals...
+
+* authenticity - property of being verified and trusted (e.g., authentication)
+* accountability - action uniquely traced back to the responsible party
+  - e.g., nonrepudiation, deterrence, fault isolation, intrusion detection prevention, etc. 
+
+======
+
+how to achieve your security goals
+
+security controls - including policy and (enforcing) mechanicsm
+
+security policy
+ - a formal statement of rules and practices
+ - specify how information assets are protected
+
+security mechanism
+ - method, tool or procedure for enforcin the security policy
+
+ - cryptographic primitives
+   -- encryption helps achieve confidentiality
+   -- digital signature helps achieve integrity
+   -- client puzzle may helps achieve availability ***********
+ - security protocols
+   -- authentiation
+   -- access control
+
+just encryption isnt amazing. 
+if you know the size and packet sequences,
+=> you can get the message (fancy name for this?)
+
+
+***********************
+
+want to prevent dos attack (like syn flood)
+crypto approach to solve dos problem
+using crypto graphic puzzle (proof of work mechanism).
+
+when half open connection about to be filled up:
+server will send client puzzzle to solve,
+solving it will burn some of client cpu's 
+only when client answer (correctly) will server serve resource 
+
+if bad guy cont. "say hello", then they solve a lot of puzzles (slows them down)
+  ==> makes them unable to produce so many malicious requests
+
+***********************
+
+More security mechanisms
+
+security systems
+ - software security
+ - network security
+ - privacy preserving system
+
+Incentive engineering
+ - consider human factors
+
+
+
+tor server/client: stepping stone help u forward yr message to 
+  website and relay website responses back to you
+
+techniques to preserve your data privacy with servers you upload info to
+
+homomorphic (sp?) data
+on top of any function, encrypt data
+very slow tho, 6-9 order of magnitude slowdown /=
+
+trust exclusion environment
+- have some face intel (??)
+- upload data, fully encr to amazon . amazon can build up trust exclsuion env,
+data can only be decrypted w/in the env
+when results are sent out of env, they are encrypted again (internally they are decrypted)
+
+intel has secret key, amazon has your enc data.
+can only get your data if they collude
+
+======

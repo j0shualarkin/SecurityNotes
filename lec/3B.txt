@@ -1,0 +1,164 @@
+// Authentication continued 
+
+Quiz 1 Questions
+
+1. expalin "security policy" and "assurance" terms
+2. consequences of syn flood
+3. what is CIA triad, give examples of each
+
+keychain by apple was designed wrong and passwords could be gleaned from them
+
+Reason for using password authentication
+- Easy to deploy
+   + alternatives are more expensive and more complicated to deploy
+- Robust
+   + approaches like signle-sign-on create a single point of failure
+- Flexible
+   + automatic password managers are hard to syncrhonize across devices 
+
+Password selection strategies
+
+- user education
+- computer-generated passwords
+- password checking
+- password policy
+
+====== 
+
+How to store the password list?
+
+- never store in plaintext (machine, thumbstick, or database/server)
+
+- computer should verify your password but not know it
+
+keep only the fingerprints of the password
+ + one-way cryptographic hash function
+ + input to output is fast, but going from output back to input is slow (intractable) (not impossible but very difficult)
+ + server only saves hashed value of password
+
+What if two people have same password?
+Each user (person) gets a random number (called "salt") and 
+  hash function is applied to user's password and user's salt
+
+If someone gets your hashed values, they can do *offline dictionary attack*
+ -- search thru billions of password a second 
+ -- online is not possible
+
+
+UNIX password storage and protection
+ - stored in shadow password file 
+    + protected by system privilege (only system privilege has access)
+    + normal user acc. install malware => malware cannot access shadow file
+
+ - threates to the password file
+    + hacking
+    + breaking in less protected system of the same user
+    + backup devices carry password file
+    + network sniffing
+ 
+
+password alone can give some protection but it is not adequate for user authentication
+  + adversary may
+
+====== 
+
+Stronger user authentication
+
+memory card and smart card
+
+- memory card
+ + credit card, bank card with magnetic stripe
+ + some further protected by PIN
+ + weaknesses: special reader, risk of token loss, usability
+
+- smart card
+  + include a microprocessor
+  + user interface: keyboard and display
+  + electronic interface: contact or NFC
+
+- authentication protocol
+ - user -> card -> computer
+ - one-time password
+ - chalenge-response
+
+smart card and card reader
+1. hello
+2. exchange protocol negotiation data
+  -- credict card and reader can ahve/use several protocols
+3. exchange authentication data
+
+
+One-time password
+- passwords good for one-use only
+- password token
+  + device assisted authentication
+  + device genreates unpredictable password
+  + synchronous token
+   - change password every minute
+   - time alignment between the token and the computer
+   - need to adjust alignment periodically
+
+how to design one-time-password-token
+  time syncrhonize device and token
+  time as seed to generate random password
+  token only calculates hash once
+   -- needs to keep synchronization with teh computer
+  use one-time hash function, apply with secret key and time 
+
+limitations ? 
+based on time, have to synch time perfectly with server
+- granularity of synch
+
+==
+
+Hash-chain approach
+
+precompute some value, then hash several times in a row
+save final value to server, token keeps secret key
+
+only give server penultimate value (hashed 6 times) then server hashes once
+if the penultimate value is leaked it doesn't matter, b/c it's used once
+server keeps the value given to hash to compute penultimate value
+
+next time only give value thats been hashed 5 times
+
+first time y_6 exposed, but y_5 can't be computed so each time we use the previous value
+  -- only the party that knows the secret (initial) value can get the various hashed values
+in order to predict next password, have to reverse hash function
+
+ - works against eavesdropper
+    - why? : you may get a value but it could be intermediate value
+ - doesnt need synchronization b/t token and computer
+ - token has to perform many hash operations
+
+this approach doesn't depend on time but computing power
+
+==
+
+challenge and response
+
+server and client both know a secret key
+server send random number to client (challenge)
+client use number and secret key to compute a response value
+server does same computation (num and sec. key) and compares with response
+
+server and user share secret, but during authentication they will not expose the secret 
+
+password authentication different: during auth. user exposdes secret (password) 
+in this approach, user doesnt expose the secret -- just prove that they know the password
+
+" i know it but i dont have to tell you what it looks like"
+
+"give me a random number, ill compute something, you compute something too
+   and if theyre the same then you know i've got the secret"
+
+protocol is vulnerable to man=in-the-middle attack
+ + been done with smart car
+ + 
+
+- use one-way function and a shared secret, a client can authenticate a server even in the presence of eavesdropper
+
+
+
+
+

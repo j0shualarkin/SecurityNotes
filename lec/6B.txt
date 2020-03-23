@@ -1,0 +1,103 @@
+/// b433 
+
+
+
+illegal queries : 
+
+manuall defensive coding practices: doing input validation
+  - input typechecking: to check that inputs that are uspposed to be numeric contian no characters 
+    other than digits
+  - pattern matching : to distinguish noraml input from abnormal input
+
+paramterized query insert:
+allows that app dev to more accurately specify the structure of an sql query and pass the parameters 
+to it separately such that any unsanitary user-input is not allowed to modify the query structure.
+
+sql dom: a set of apis that enables automated data type validation and escaping. always typecheck
+
+
+
+sqli detection:
+signature based: attempts to match specific attack patterns. such an approach must be constantly updated and may no work against sel-fmodifying attacks
+
+anomaly based: attempts to define normal behavior and then detect behavior patterns outside 
+  the normal range. there is training phase, in which the systme learns the range of 
+  normal behavior, followed by the actual detection phase
+
+code analysis: code analysis tehcniques involve the use of aa test suite to detect sqli 
+  vulenerabilites.
+the test suite is designed to generate a wide range of SQLi attacks an dassess the response of 
+the system
+
+cascading authorizations: 
+
+
+=====
+
+Roadmap:
+
+web security basics
+
+cross-site scripting attack
+
+cross site request forgery
+
+==
+
+Web: collection of app-layer services used to distribute content
+   - web content (HTML), multimedia, email, instant messaging
+   - many applications: news outlets, entertainment, educaiton, research and technology
+        commerical
+
+The high bits
+ - largest distributed system in existence
+  - threats are as diverse as applications and users
+  - but need to be thought out carefully
+
+
+Web security
+- client-server communication security
+  - ssl: two phases -- connection establishment, data transfer
+- server secuirty
+   - sql injection attack
+   - cross site scripting (XSS) attack
+   - cross site request forgery
+- client security
+  - drive-by downloads
+  - browser security
+
+
+Security consideratoin
+ - cookie
+ - dynamic content
+    + cgi
+    + embedded scripting : ASP/JSP/PHP 
+- client web content
+  + plug-in j
+  javascript
+  activex
+  authenticode
+  java
+
+
+Same origin policy
+ - foundation for browser security
+ - scripts on pages from the same domains can access to these pages
+ - those from different domains are not allowed to access each other
+
+How to get SOP wrong in java ::
+the only network cxn an untrusted applet can make is to connect back to its homesite. 
+here is the SOP of netsacpe 2.0
+ + use dns to translate the name of the web server into a list of IP addrs
+ + use DNS to translate the name of the machine the applaet wants to connect to into a list o fIP addrs
+ + compare the two lists. if any address appears in both lists, declare the two machines are the same and allow the connection. if not,  declare they are different and refuse the connection
+
+ 
+
+
+
+
+
+
+
+

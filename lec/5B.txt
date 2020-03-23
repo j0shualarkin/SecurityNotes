@@ -1,0 +1,110 @@
+// Joshua Larkin
+// B433 Lecture 5B
+// 12 Feb 2020
+// Wrap up access control + start database security
+
+
+Access Control Lists 
+-- one column of Access Control Matrix
+
+capability
+  -- add/remv user, easy
+  -- add resource, hard
+
+acl 
+  -- add resource, easy
+  -- add/remv user, hard
+
+Example for RBAC: MPAA movie rating system
+classifying resources (movies) into objects (G/PG13/R)
+
+====
+
+Attribute-Based Access Control
+ - lots of flexibility and expressive power
+ - identifying/using attribute(s) of role and object/resource, plus environment attributes
+ - ++ can devise a very precise and succinct policy
+
+Enforcement mechanism combines enc conditions, subject attrs and object attr
+  then checks the access control policy in order to decide
+ 
+RBAC vs ABAC
+- abac is more efficient 
+
+(*below is on RBAC*)
+
+- create a rol for each combiniation of subjects
+- same with combos of object attributes
+- might have to increase the number the number of roles
+- adding an attribute means doubling the roles (?)
+
+
+ABAC can easily hanlde this, RBAC cannot
+
+============================= =============================
+               ======= SQL Injection =======
+============================= =============================
+
+(i) Datbase Mgmt System (DBMS) & Relational Database
+
+* databases store highly sensitive information
+  - corp. fin. data, phone records, customer/emplyee info, proprietary product info, medical records
+
+* to effectively protect DBMS you need to understand the vulnerabilities of SQL
+* system admins ensure availability and performance but often neglect security
+
+Defn: a databse is a structured collection of data, electronically stored and access ed by one or more applications
+contians the relationship b/t data or groups of data (in addition to data)
+
+Defn of DBMS: suite of prgrams for constrct and maintain DB and for offering adhoc query facilities to multiple users and applications. 
+
+DBMS Architecture: 
+ Languages:
+   DDL - data defn lange - define schema/basic structure of DB
+   DML - data manipulation lang - provide a powerful set of tools for app devs
+   QL - query language - designed to support end users 
+
+ Tables:
+   Database description tables - manage the physical database
+   Authorization tables - ensure the user has permission to execute the query lang stmt on the db
+   concurrent acccess tbale - prevent fonclits when simultaneous conflicing commands ar execute
+
+  Interfaces:
+   file manager module
+   transaction manager module 
+
+Relational Database:
+ Flat Table 
+  - single large table with rows and columns
+  - hard to update when adding other types of info (has to add columns)
+
+ Relational Database:
+  - multiple tables tied together by a unique identifier 
+  - uses a query language that composes declarative statements to retrieve information 
+
+Building Blocks: 
+ relation: flat table
+ primary key: portion of a row to uniquely identify a row. may consist of one or more column names
+ foreign key: attributes that define the primary key of one table also appear in another table
+   unlike primary key, a foreign key value can appear multiple times 
+ 
+ views: 
+   - virtual table that contains the result of a query
+   - selected rows & columns from one/more tables
+   - can provide restricted access to a relational database 
+
+
+(ii) Attacks
+
+
+(iii) Access Control in modern DBMS
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+SQLi Attack Avenues 
+-----------
+User Input
+ - attackers inject SQL commands by providing suitably crafted user input
+ - like `Boston; DROP table SomeTable--`
+ 
+Server Variables
+ - collection of vars that hold HTTP/network protocol headers, and env vars
+ - used for logging usage stats and identifying browsing trends
+ - attackers can forge the values placed in HTTP/network headers
+   => can place data directly into the headers 
+ - when the query to log server var is issued to the DB, attack in the forged header 
+   is triggered 
+
+Second-order injection
+ - when incomplete prevention mechanisms are in place 
+ - malicious user could rely on data already present in the system/DB to trigger
+     an SQLi attack, so the attack comes from within the system, not the user
+
+Cookies
+ - attacker could alter cookies so when user comes back to a page,
+   the structure/function of the query based on the cookie's content is modified
+
+Physical user input
+ - barcodes/RFID tags/paper forms which when scanned and passed to DBMS constructs 
+   an SQLi attack
+
+=====
+
+Types: inband, inferential, out-of-band
+
+inband: 
+  tautology: makes statements always evaluate to true
+     like `or 1=1 --
+  end-of-line comment: using -- so as not to execute the rest of the query
+  piggybacked queries: attacker adds additional queries 
+    relies on server configs that allow several different queries within
+    single string of code 
+
+inferential:
+   illegla/logically incorrect: good for gathering information on vulnerabilities`
+     default error page is often too descriptive
+
+   blind sql injection: allows attackers to infer data present in DBS 
+     basically ask true or false, if false then the webpage is different/less functional
+
+out of band
+  data retrieved using diff. channel 
+
+
+=====
+countermeasures: defensive coding, detection, and run-time prevention
+
+defensive coding: 
+  1. input validation/scrubbing
+     (if spsed to be number, make sure only digits; etc...)
+  2. parameterized query insertion : make structure of query un-modifiable
+  3. SQL DOM: data type validation and escaping 
+       -- typed checked API instead of string building 
+
+detection: 
+  1. signature based: match specific attack patterns
+       may not work against self-modifying attacks
+  2. anomaly based: define normal behavior, detect behavior outside the normal range
+  3. code analysis: test suoite to detect SQLi vulnerabilities;
+      gen wide-range of SQLi attacks and assess the response of the system
+
+
+run-time prevention:
+  1. check queries at runtime to see if they conform to a model of expected queries
+
+=========
+
+Database access control
+
+ 
+
+
+
+
+
+
+
+

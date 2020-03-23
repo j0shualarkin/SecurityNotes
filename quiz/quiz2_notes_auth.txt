@@ -1,0 +1,344 @@
+///// Review of Chapter 3.1-3.6 
+///// preparation for quiz 2
+///// quiz over authentication
+
+// I should just get a token that generates passwords and remembers them.
+// then use it for all of my accounts
+
+==== prob. import. topics
+
+1-time passcode
+
+hashing
+
+challenge response protcol
+
+multifactor authentication
+  with token
+
+capture device auth.
+
+
+========================================= 3.2 =========================================
+
+Password based Authentication
+
+system compares a pw with a prev. stored pw in a system pw file
+
+user id provides security
+ - proves authorization
+ - determines privileges accorded to user
+ - used in discretionary access control (another user granting a user privileges)
+
+often systems store a one-way hash function of a password
+
+                 Password Attacks
+ * offline dictionary -- compare pw hashes with hashes of commonly used pw
+    -- when they have gained access they shouldn't've
+ * specific account 
+    - guess until correct pw found
+    + lockout mechanism
+ * popular passwords
+    - try easily remembered words
+    + can scan IP addrs of auth. requests and client cookies for submission patterns
+ * password guesseing against single user
+    attacker tries to learn about the user they want to hack
+ * workstation hijack
+ * exploit user mistakes -- writing it down
+ * exploit multiple pw use -- using same pw for multiple things
+
+hashing 
+  hash password and salt (random number)A
+
+
+  salt has 3 purposes
+   - prevet duplicate pw from being visible
+   - incr. difficulty of offline dictionary attacks
+     salt of b bits - possible passwords incr. by 2^b
+   - nearly impossible ot tell if someone with pw 
+       on 2 or more systems has used the same pw on all of them
+
+attacks
+could precopmute lots of hases from salt values and common passwords
++ counter by using large salt 
+could guess
+
+
+Password File Access Control
+- 
+
+Password Selection Strategies
+ - user education -- tell them how to make a good pw
+ - computer-generated pw
+ - reactive pw checking -- system runs a pw cracker to find guessable pws
+ - complex pw policy -- system checks pw when user makes it
+
+========================================= 3.3 =========================================
+
+Token based Authentication
+
+
+Memory Cards
+  - provide memory card and some pw/pin
+  drawbacks:
+    requires special reader
+    token loss
+    user dissatisfaction
+
+Smart Cards
+ common characteristics
+ * tokens w/ embedded microprocessor
+ * user interface - keypad/display
+ * electronic interface 
+     - contact : insertion into reader 
+     - contactless : close proximity to reader
+ * authentication protocol
+
+   - static : user auth. themself to token 
+      	      token auth. user to computer
+
+   - dynamic password generator : 
+       token gen. unique pw >> entered by user or thru token
+       (electronic requires synch.)
+   
+   - challenge-response : system gen random string of numbers 
+       >> token generates response
+
+
+========================================= 3.4 =========================================
+
+Biometric Authentication
+
+====
+
+* based on pattern recognition *
+
+====
+
+biometric: hands & face 
+           fingers & eyes
+
+
+
+                   static characteristics
+fingerprint (fp)
+  - extract a # of features from fp
+    [ stored as a numerical surrogate for the full fp pattern ]
+
+hand geometry
+  - shape, length/width of fingers
+
+facial characteristics
+  - based on relative location and shape of key facial features
+     eyes, eyebrows, nose, lips, chin shape
+  - or based on infrared camera to produce a face thermogram
+    correlates with the underlying vascular system in the face
+
+retinal and iris patterns
+ - patterns in veins beneath retinal surface (unique)
+ - retinal biometric system obtains digital image of retinal pattern
+   [ project low-intensity beam of visual or infrared light into the eye ]
+  - iris has detailed structure
+
+              dynamic characteristics
+voiceprint & signature are unique but vary a lot in any one individual 
+  => making a biometric system is very complicated 
+    
+
+====
+
+
+Operation of Biometric Authentication System
+
+ - database of authorized users 
+    + must be enrolled in the system
+ - system sense some bio char. >> digitize >> extract set of features 
+    store features as numbers or set of numbers 
+    the set is the "template"
+
+ - user authentication is comparing extracted features (user using biometric sensor)
+     with some store template(s)
+
+     Biometric Verification: 
+       system knows which template to lookup
+       enter PIN & use sensor
+
+     Biometric Identification: 
+       system checks extracted features with all templates
+       only use sensor
+
+Biometric Accuracy
+
+* given complexity, cannot expect an exact match b/t 2 templates
+
+* system uses an algorithm to gen. matching score (a number)
+   quantifies similarity b/t input & stored template
+
+* false match rate : frequency that biometric samples 
+    from diff sources are erroneously assessed to be from the same source
+
+* false nonmatch rate : freq. ... same source erroneously asssed to be from different sources
+
+      /// nonmatch : they are same source but assessed to be from different sources
+      /// match : from different sources > assessed as from same
+
+* range of matching scores produced by 2 indivs. (1 real, 1 fake)
+comapred to a given reference template are likely to overlap
+(bell curves)
+
+part of genuine user's curve will go past (below) decision threshold
+ so false nonmatch (area under curve, left of threshold)
+
+and part of imposter will go above threshold
+  => false match 
+
+increase threshold => increase security, decrease convenience
+decrease threshold => decrease security, increase convenience
+
+========================================= 3.5 =========================================
+
+Remote User Authentication
+
+====
+
+** Occurs over Internet, a network, or comms link
+
+common threats: eavesdropping, replay 
+common defenses: challenge-response protocols
+
+      Challenge Response Protocls
+====
+          Password Protocol
+ 1. user transmits their identity to remote host
+ 2. host generates random number r ( called a nonce )
+    and sends r to user
+ 3. host specifies 2 functions
+     h() and f() 
+ 4. user responds with:
+     f(r', h(P')) 
+    where r' = r 
+    and   P' is the user's password
+
+so the user applies a hash function to their pw
+and gives that along with the number the host generated
+back to the host
+
+
+** transmission from host to user is the challenge
+** each user gets a h() ; stored by host [ like h(P(U)) for P(U) being pw of user U ]
+** authenticated when incoming (to host) value
+    f(r', h(P')) == f(r, h(P(U)))
+
+++ host stores hashcode of password 
+   - secured from intruders into the system
+   - password hash cannot be captured during transmission
+     by a suitable function f
+
+
+
+====
+
+
+          Token Protocol
+ 1. user transmits their identity (U) to remote host
+ 2. host sends:
+      r - random number (nonce)
+      h() - hash function
+      f() - package function 
+ 3. user uses token (via r!) to generate a passcode 
+    user responds with:
+     f(r', h(W')) 
+    where r' = token; return of r
+    and   W' is the user's pc
+  4. authenticated if
+     f(r', h(W')) = f(r, h(W(U)))
+
+
+* user activates pc by entering P'
+* token may use static pc or 1-time random pc
+** 1-time random pc: must be synchronized w/ host
+** static: host stores h(W(U))
+
+====
+
+
+          Static Biometric Protocol
+ 1. user transmits their identity (U) to remote host
+ 2. host sends:
+      r - random number (nonce)
+      E() - encryption function
+ 3. system (of user) generates a biometric template BT'
+    from the user's biometric B'
+ 4. system returns E(r', D', BT') where D' ids this particular device
+ 5. host decrypts - apply E^ (inverse) to returned value
+ 6. authenticated 
+      (1/2) if r' = r and the matching score b/t BT' 
+        & the stored template must exceed a predefined threshold
+      (2/2) incoming device ID is listed as a register device 
+        @ the host database 
+
+
+
+          Dynamic Biometric Protocol
+ 1. user transmits their identity (U) to remote host
+ 2. host sends:
+      r - random number (nonce)
+      E() - encryption function
+      x - sequence
+ 3. system (of user) generates a biometric template BT'
+    from the user's biometric B'
+ 4. user vocalizes, types or writes the seqn x
+ 5. system returns E(r', D', BT') where D' ids this particular device
+ 6. host decrypts - apply E^ (inverse) to returned value
+ 7. authenticated 
+      (1/3) if r' = r and the matching score b/t BT' 
+        & the stored template must exceed a predefined threshold
+      (2/3) incoming device ID is listed as a register device 
+        @ the host database 
+      (3/3) compares incoming biometirc signal BS'(x') 
+        with stored template BT(U) and x (original signal)
+
+
+
+
+========================================= 3.6 =========================================
+
+Security Issues for User Authentication
+====
+
+client attack * masquerade *
+  - adversary attempts to achieve user auth w/o access
+    to the remote host or to the intervening communications path.
+  - quess the password (harder with large entropy)
+  - token can gen. high-entropy passcode from low-entropy PIN
+     adversary needs physical token to succeed
+
+====
+
+host attack 
+  - adversary attempts to access password file
+    where pws, token passcodes or biometric templates are stored
+
+====
+
+Eavesdropping 
+  - adversary attempts to learn the password by observing the user,
+  finding a written copy of the password, or some similar attack that
+  involves the physical proximity of user and adversary
+
+  - keylogging is another form
+  + defense: multi-factor (pw + token || pw + bio)
+
+theft / copy / imitate* threats
+ *bio
+
+ replay - adversary repeating a prev. captured user response
+  + def: challenge-response
+
+torjan horse 
+  - app or device masquerades as authentic 
+    to capture a user pw, pcode, bio
+
+
+
+

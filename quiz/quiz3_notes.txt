@@ -1,0 +1,70 @@
+Advanced Access Control
+
+Mandatory access control - a user can designate, by their own voilition, the rights or adjusting of rights of another user
+
+ACL vs capbility
+- control matrix is rows of users and columns of objects
+- if you decompose to just columns, you get ACLS 
+    -> each file has an entry in the list and this entry contains the users and their access rights
+- if you decompose to just rows, you get capability tickets
+    -> specifies authorized objects/operators for a particular user 
+    greater security problem because they can be dispersed around systems
+- nice inverses of each other 
+   easy to find out the set of access rights that a given user has,
+     but more difficult to determine the list of users with specific access rights 
+        for a specific resource 
+
+
+authorization table : contains 1 row for 1 access right of 1 subject to 1 resource
+ - sort/access by subject == capability list
+ - sort/access by object  == ACL
+
+
+
+======
+The remaining three bits define special additional behavior for files or direc-
+tories. Two of these are the “set user ID” (SetUID) and “set group ID” (SetGID) 
+permissions. If these are set on an executable file, the operating system functions as 
+follows. When a user (with execute privileges for this file) executes the file, the  system 
+ temporarily allocates the rights of the user’s ID of the file creator, or the file’s group, 
+ respectively, to those of the user executing the file. These are known as the “effective 
+user ID” and “effective group ID” and are used in addition to the “real user ID” and 
+“real group ID” of the executing user when making access  control  decisions for this 
+ program. This change is only effective while the program is being executed. This fea-
+ture enables the creation and use of privileged programs that may use files normally 
+ inaccessible to other users. It enables users to access certain files in a controlled fash-
+ion.  Alternatively, when applied to a directory, the SetGID  permission indicates that 
+newly created files will inherit the group of this directory. The SetUID permission is 
+ignored.
+The final permission bit is the “sticky” bit. When set on a file, this originally indicated that the system should retain the file contents in memory following execution. This is no longer used. When applied to a directory, though, it specifies that only the owner of any file in the idrectory can rename, more, or delete that file. This is useful for managing files in shared temporary directories.
+
+====
+
+Extended Access Control List
+ - owner class and other class entires have 9-bit permission field 
+ - group class entry specifies the permissions for the owner group for the file
+   + maximum permis. that can be assigned to named users/groups (other than owning user)
+       ++ group class entry functions as a mask
+- additional named users/groups may be associated with the file
+   + each gets 3-bit perms. field 
+   ++ compare to mask field of file in ACL 
+     -> any perms. for the named user/group NOT present in mask is DISALLOWED
+
+
+====
+
+Role-Based AC
+ - users get assigned roles
+ - roles have rights on resources, not users
+ - many to many
+    users can get many roles
+    role can have many users 
+
+Attribute-Based AC
+- :q
+
+
+
+
+
+

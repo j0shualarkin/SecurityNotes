@@ -1,0 +1,174 @@
+15 Jan 2020 ; IU Bloomington ; Dr. XiaoFeng Wang
+
+================================================
+What is security? Lecture
+================================================
+
+1. protect information assets from intentional human misuses
+2. information assets: valuable computing resources
+    * hardware (cpu, disk, network adapter card, etc...)
+    * software (os, utils, apps)
+    * data (files, db, passwords)
+    * communicaiton facilities and networks (link, bridge, router)
+
+================================================
+Security concerns
+================================================
+
+1. information assets could be easily abused
+ -- break into your systems to steal confidential data
+ -- destroy your valuable files
+ -- spy your communication
+ -- squander your resources
+
+People can get access to your devices
+
+Princple of easiest penetration (Maginot Line)
+ -- an intruder must be expected to use any available means of penetration, 
+    not necessarily from the most obvious one or the one against the most solid defense
+ -- there are alternatives to breaking encryption without having the key...
+
+
+================================================
+Vulnerability, Threat, Risk and Attack (RFC4949)
+================================================
+
+Vulnerability: 
+  - make assumption about attacker's capability and intention 
+  - given this, and access to your system, can they inflict damage?
+  - def: weakness in the security system 
+  - apache server/client allow remote desktop access 
+     attacker can send a request to your server? they can attack you
+     request can contain attack code/data 
+       -- when you read it into the server, you render control to the attacker
+  - corruption, leakage and unavailability
+  - e.g., software bugs, defense holes...
+ 
+Threat: a set of circumstances that has the potential to 
+ cause exploit of vulnerabilities and damages to information assets
+
+Risk: Loss as the probability that threat causes harm 
+  - the chance an evil plan (launched against you) would be succeessful
+  - "probabilisitc chance of loss"
+
+Attack : an assult on system that derives from a threat
+
+Example: TCP 3-Way Handshake
+  - purpose: establish a channel for service and client 
+  - approach makes sense as long as client always does good
+  - but this is a vulnerability
+ 
+  - by not committing to the ACK packet, 
+    client can force server to keep a block of unused memory (for a period of time)
+    -- if enough memory gets taken up/not used then 
+       it can all be expended and the server wont take 
+       in new (potentially good) clients
+  - ^^ the potential threat: deny service of the server ^^
+  
+  - risk: if the server goes down, there will be some loss 
+     -- level of loss depends on the server 
+     -- could be days, could lose millions of dollars
+
+  - attack: syn-flooding
+     -- adversary uses all of the server's resources 
+
+    3Way Handshake:
+Reminder, how it works:
+client sends SYN packet to server
+server sends SYN-ACK packet to client 
+  (sets aside a chunk of memory for when client followsup; 
+   so server has a spot to keep the communication data)*
+client sends ACK packet to server
+
+*half-open queue
+
+================================================
+Attack Surfaces
+================================================
+
+attack surface depends on assumption about attacker
+
+* reachable and exploitable vuleranilities
+* general categories:
+  - network surface: e.g., open ports, services on the inside of a firewall
+  - software surface: e.g., code that processes incoming data
+  - human surface: gullible employee gives access to sensitive data 
+
+"thumbstick" (combo of "usb stick" and "thumbdrive")
+
+usb ports on cars are unsafe
+you can write something that pretends to be a device 
+  and reads all the communications within the car
+      since theres no encryption within the car
+ultimately this could be a serious threat as someone could take control of the car 
+
+BUT this ^^ may not be an attack surface  *****
+
+
+the assumption is that they must enter the door first (all protection is on door)
+but if you can break the door open, you could leave a bomb there and not hack the car at all
+
+the model has a premier assumption that they must get in the door
+this is separate from internet
+"as long as they secure the door, the car is secure"
+vulnerable but unreachable (as long as door is protected)
+
+***** because it is not a reachable vulnerability in the manufacturers model?
+
+================================================
+Threats
+================================================
+
+Unauthorized disclosure
+ - Exposure
+ - Inference 
+   -- unique feature to figure out which packet is which,
+   -- one common thing is to know the packet size
+ - Interception
+ - Intrusion
+
+Deception (false data accepted as true)
+ - Masquerade
+ - Falsification
+ - Repudiation
+
+Disruption (aiming at availability or integrity)
+ - Incapacitation 
+ - Corruption (system modification)
+ - Obstruction (interfere with communication)
+
+Usurpation (unauthorized system control)
+ - Misappropriation (theat of service)
+   -- e.g., an app that uses your resources to mine bitcoin without your consent
+            like a webpage that has scripts that get run on your machine
+ - Misuse (unauthorized system access)
+
+
+Youtube video: can have malware on machine connected to a hotspot 
+which is fully encrypted
+(inference attack)
+and it can track what users type
+
+2 types of attack: active and passive
+ + active - attacker affects a target system's operation
+ + passive - attacker learn information without affecting system 
+
+2 kinds of origins: authorized users nad unauthorized
+ - first case they are doing bad things
+ - second case they have gained access they shouldnt have
+
+
+A Replay attack is an active attack
+ - Alice sends Bob a signed email containing $100
+ - Bob knows email is authenticated, so he deposits the money
+ - Sam, another agent, has access to their comms (maybe its a local network)
+   maybe he is on ISP level or he is just sniffing around the network
+ - Sam can take the money from the account, send the same message to Bob and repeat this process
+
+Message itself does not have a timestamp, so Sam can replay the message Alice sent to Bob 
+Sam is actively involved -- he is receiving and sending the message w/r/t Bob
+
+
+
+
+

@@ -1,0 +1,86 @@
+/****************************
+/** Advanced Access Control
+/** Lecture 5A
+/** B433
+/****************************
+
+
+Subject - Owner, Group, world
+Object - file(s), ...
+Access rights link subjects with objects
+
+Discretionary Access Control
+  - user has full rights on her document 
+  - user/owner can give permissions to files
+
+Mandatory Access Control
+  - you created file but you cannot change the access rights
+  - originally designed for military
+     + sensitivty; need to know 
+     + compartments/projects
+  - classify into ranks 
+  - objects have clearance levels (rank) 
+     and compartment (need to know (?))
+
+DAC => you make file you have total riht to changes & sharing document
+    => access control matrix - person _or_ process 
+          - drawback: large memory required, wasted memory space 
+	  - response: Access Control List
+
+   ACL 
+     single file
+     [? representation of access of an object ?]
+     positives: data-oriented, simple implementation
+     negatives: user remove is expensive (@ runtime), difficult to delegate rights
+
+Unix ACL : 3 bits : r/w/x 
+  - every object has 1 owner & 1 group 
+  - next 3 bits are for group, last 3 for other (user not in group and not owner)
+  - last bit is for title (?, unimportant...)
+
+Extended UNIX ACL 
+  - more granularity
+     + give specific person in group more rights
+  - group permissions 
+     + max permission available to a named user or named groups
+     + each user gets additional 3 bits
+        the 3 new bits are a mask that gives specific people specific rights
+	e.g., everybody in the group gets write priv. but one specific user could be _not_ 
+	  allowed write access
+  - more flexible 
+     + differentiate users in the Groups class
+
+User-oritented AC 
+  - (capabilities)
+  - user gets a ticket with their capabilities
+  perks: efficient @ runtime; 
+   	 easy to delegate rights; 
+	 OS can run in user mode
+  negs: changing file permissions is difficult 
+  can issue ticket with time limit to give temporary permissions
+
+ACL: given an object, what subjects can access it & how?
+vs. 
+User-oriented: given an subject, what objects can access it & how?
+
+Unix ACL does not have ACL for programs/processes
+  - has rights of user when run
+  - suid/sgid : process runs with priv of user/group 
+  - owner == admin => an attacker that gets control gets total control
+
+Role-based AC
+ - users are mapped to roles (many-to-many), 
+     their priv. are based on role, not identity
+ - roles in system/env are static, but assignment of users to roles is dynamic
+    + env where RBAC is advantageous
+
+One user can get multiple roles; movies and MPAA ratings are like this 
+
+Attribute-based Access Control
+ - conditioned on resource and subject
+ perk: flexible & expressive power
+
+ - e.g., each resource has attribute(s) that are related to subjects 
+
+
+

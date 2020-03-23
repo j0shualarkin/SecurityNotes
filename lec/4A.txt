@@ -1,0 +1,165 @@
+*****************************
+**     B433 Lecture 4A	   **
+**     3 Feb 2020 	   **
+*****************************
+
+
+==== Authentication cont. ====
+
+Tell human and computers apart
+
+CAPTCHA
+* turing test: a test of a machine's capability to perform human-like conversation
+* CAPTCHA: Completely Automated Public Turing test to tell Computers and Humans Apart
+  -- one-way function to computer
+  -- not a one-way function to human being
+  -- http://www.captcha.net/captchas/
+
+* captcha used by gmail
+  -- originally, just twist letters a bit to fool optical-letter recognizer 
+      +  no longer secure 
+      + some pattern-recognition program can automatically detect the characters
+  -- then overlap some letters together
+      + worked for a bit, but no longer secure
+      + letter based capture is easy to generate 
+         easy to generate random data then just do small manipulations to each one and eventually find the match (?)
+  -- coordinated technique 
+      + google uses
+      + stick letters together (e.g., LHB) 
+         force boundary problem on letters (segmentation algo) 
+	 as of now it works, but probably not forever
+  -- "pick a word that relates all the images"
+      + "pick all images of crosswalks"
+
+Biometric Authentication
+ --  handwritten signatures
+ --  keystroke patterns
+ --  face recognition (orig. 2D (fool w/ camera) now with 3D)
+        + project infrared on face and build 3d model from yr face structure
+        ++ could have a 3d printed mask that matches
+ --  hand geometry
+ --  dna
+ --  fingerprints
+ --  iris code
+ --  retina pattern
+ --  voice
+
+For Biometric, you first have to enroll your feature into a biometric databse
+then an extractor will take from the sensor and verify with the database using feature matcher
+(databse does one tempalte for the feature matcher)
+
+(^^ verification)
+
+for identification, database gives N templates for the feature matcher to check with your input
+
+Biometric accuracy : not always reliable
+-- provide fingerprint twice, won't be identicial in biometric reader technology
+-- distribution of imposter vs. genuine user (overlap in matching score)
+   + leads to false positives/false negatives (allowed imposters/denied users)
+-- set a decision threshold
+
+===
+Problems of biometrics
+===
+* limitation of technologies
+    - dna typing has hig hrate of false positives
+* environmental factors
+    -noise, dirt, vibration, and unreliable lighting conditions
+* forgery
+   - fingerprints planted by villains
+   - the age of a fingerprints
+* challenge: most usable biometric technologies
+   - e.g., meet bank's goal of 1% fraud rate and 0.01% insult rate
+
+== NB==
+purpose is not to eliminate threat, just raise the bar (make it harder) to bypass protection
+  --> elimination would proabbly require too many resources (if possible)
+=====
+
+===
+mutual authentication
+===
+
+- man in the middle attack
+- server also needs to auth. itself to user
+  + a kind of server auth: last login time
+  + mutual challenge-and-response auth
+
+==
+other authentication:
+==
+two factor auth
+signle sign on
+
+==
+key exchange
+==
+
+- auth b/t two agents
+ + one agent gains confidence in the other's identity
+  + e.g., computer to computer, software to software
+- establish sesion 
+key auth is coupled with the distro of session key
+session key is used to protect auth, confidentiailty, and integrity
+
+
+====
+
+simple key exchange protocol:
+
+alice sends her (A) and bob's (B) key
+3rd party (J) sends two secret keys, one made from JA and one from JB
+then alice sends her key and the JB to Bob
+both trust the third party and have the third party's session key 
+
+[ to unbox the keys, you still need the private key ]
+[ if third party (J) encoded alice's key into the msg for Bob 
+  then only Alice's PRIVATE key can be used to look at it, 
+  so only the real Alice will be in correspondence ]
+
+=> Alice doesn't authenticate herself to Bob, any party could claim to be Alice
+   protocol does not include anything ithat proves the message/key is from Alice
+   trusted party does not say whether it was actually alice either
+
+
+====
+
+Needhma-Schroeder ptocol
+
+third party encodes identity of sender into message
+bob gets piece of packet and obtains a key
+bob randomly generated a number only used once (nonce)
+alice decrypts number, reduce by 1, encrypt (using same key, K(AB)) and sends it back
+bob can decrypt this message
+
+the random number is a challenge to verify (authenticate) Alice in Bob's eyes
+
+===
+
+Denning-Sacco Replay Attack
+
+If Sam stole the session key of last session, K(AB), he can replay the first message to Bob
+then open any challenge from Bob and send back the appropriate value
+
+avoid replay attack with more nonces (number used once)
+
+===
+
+Needham-Schroeder public key authentication protocol
+
+* assume both Alice and Bob have key pairs: (public, private)
+* alice picks a random number ,encrypts with bob public key
+* bob decrypt and picks a number, sends his number and alice's back (encrypt with alices public key)
+* alice sends bob's number back using his public key
+
+=> man-in-the-middle attack will make this insecure
+if alice auth herself to an imposter (Sam)
+Sam can impersonate Bob when talking to Alice
+then Sam gets messages from both parties 
+  and lets each do the encryption/decryption 
+    and send the messages back to Sam
+==> problem is alice doesn't know where message is coming from
+==> if Bob's identity is in message to Sam, then Alice will know that she is (really) talking to Bob and not Sam
+
+
+

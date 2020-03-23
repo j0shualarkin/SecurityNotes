@@ -1,0 +1,90 @@
+Databse security 
+
+basics about sql injection attacks
+- modern web apps involve interactions with backend DBs that contian volumes of info.
+  a webpage can make sql queries to ask the databses for criticual user information
+
+- an sql injection (SQLi) attack is designed to send malicious SQL commands ot the databse server.
+  in other words, it exploits vulernabilities in the DB layer of a web application
+
+- the most common attack goal is bulk extraction of data (to dump databse tables) can also be 
+  exploited to modify or delete data, execute arbitrary system commands or 
+    launch denial-of-service (Dos) attacks
+
+- need to do data sanitization
+
+
+Typical SQLi Attack
+1. hacker finds vulnerability in a web app and injects an sql command
+
+
+The injection 
+
+-- code snippet
+
+var ShipCity;
+ShipCity = Request.form("ShipCity");
+var sql = "select * from OrdersTabl where ShipCity = '" + ShipCity + "'";
+
+-- if user enters Redmond as the name of the city, the composed SQL query string is 
+
+SELECT * FROM OrdersTable WHERE ShipCity = 'Redmond'
+
+-- goalfo the attacker, however, is to prematurely terminate the string and append a new command
+
+-- suppose the user enters another string Boston'; DROP table ORdersTable ---
+the resulting SQL query:
+SELECT * FROM OrdersTable WHERE ShipCity = 'Boston';
+DROP table OrdersTable -- ...
+
+** all commands after -- are dropped
+
+The ; separates two commands. The -- is an indicator that the remaining text of the current
+line is a comment and not to be executed. the sql server first selects all
+records in OrdersTable where ShipCity is Remond. Then it drops that table, which forms an attack.
+
+
+===
+
+SQLi Attack Avenues
+
+1. user input: attackers inject sql commands by providing crafted input. 
+user input typically comes from form submissions that are sent to the web application via HTTP GET orPOST requsests
+
+2. server variables: 
+  - server variable are a collection of vars that ocntain HTTP heaers, network protocol headers,
+  and env vars
+  - if these vars are logged to a DB w/o sanitization, it creates an SQL injection point since 
+  an attacker can place data directly into the headers.
+
+3. second-=order injection: the attacker reliest on data already present in the system to 
+trigger an sql injection attack. the input that modifies the query to cause 
+an attack does not come from the user but from the system itself 
+
+
+4. Cookies: cookies are used to restore the client's state info when the user returns to the same webb app. since hte client has 
+control over ocokie s an attacker could alter cookies such that when the app server builds an sql query base don the cookie's content, the structure of that query is modified
+
+5. physical input: input may not be leectornic. it can also be conventional bbarcodes, RFID tag,s or even paper forms which are scanned using optical character recognition and passed to a DBMS
+
+===
+
+SQLi Type: Inband Attacks
+ - inband attacks: uses the same comms channel for inject. sql cod eand tretrieving results
+ - tautology: injects code in one or more conditional statmets so that the yevalujate to true, can be used to bypass checks
+ - end of line comment; after inject code into field, comments the legit code that folllows
+ - piggyback queries: attacker adds additional queries beyond the inteded query, 
+   piggybacking the attack on top of a legitimate request
+
+
+Tautology:
+
+Add in some bit that makes a condition true, e.g. 'OR 1=1 --'
+then the query always evaluates to true for each row in the table, and returns all of the records
+
+
+
+
+
+
+

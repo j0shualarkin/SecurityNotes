@@ -1,0 +1,160 @@
+//
+// 27 Jan 2020
+// B433 - Monday Lecture 
+
+// Wrapping up basic concepts
+// Then 
+// Starting on authentication
+
+Security Mechanisms
+
+
+Cryptographic primitives
+ - encryption helps achieve confidentiality
+ - digital signature (MAC) helps achieve (data) integrity
+ - client puzzle may help achieve availability
+
+
+Security protocols
+ - authentication
+ - access control
+
+
+Security Systems
+ - software security
+ - network security
+ - privacy preserving system
+
+
+Incentive engineering
+ - consider human factors
+
+
+Onion-routing originally based on mixed networking
+
+
+-----
+
+Security protection always comes with some cost
+
+Risk: chance of attacks
+How to make security appropriate? 
+
+Tradeoff: 
+ - assess the loss of an attack
+ - assess the risk
+ - assess the value of assets
+ - assess effectiveness of a security control
+
+Pitfalls
+  - identify incorrect threats
+  - incorrect mapping of: 
+     - threats -> policy
+     - policy -> mechanisms
+  - changing environment invalidates assumptions
+
+
+-----
+
+Trust
+a _trusted_ system is one whose failure ...
+
+-----
+
+
+Assurance
+ - degree of confidence that security measures work as intended 
+   to protect the system and information it processes
+
+ does security system design meet requirements?
+ does security system design impelmentation meet specifications? 
+
+-----
+
+Fundamental Security design principles
+ - economy of mechaism
+ - fail-safe defaults
+    - by default the system doesnt allow applications access/permissions? 
+    - by deafault, attacker won't get anything useful
+ - complete mediation
+   - dont just give an open channel to an attacker? 
+   - GPS permission? 
+ - open design
+   - worry: security of security
+ - separation of privilege
+ - least privilege 
+ - lease common mechanism
+ - psychological acceptability
+ - isolation/encapsulation/modularity/layering
+ - least astonishment
+
+app w/o gps permis. can still get your location
+wifi mac address will be saved on your phone
+ - on android, this information is public. 
+ 
+privilege: don't give party more privilege than needed to complete task
+
+isolation:
+  + on android each app is a different user (security like unix systems)
+  + ios the apps cannot interact with each other at all
+
+
+====
+
+Authentication : determining who makes the request
+Authorization  : determining who is allowed to access resources
+Access Control : how to make the decision and control the access
+
+
+principal --> request --> guard --> no 
+                            |
+			    |  yes 
+			    |
+			    v
+			    resources
+
+register authority gets physical information (creds)
+confirms with credential services (get password token)
+use token to communicate with verifier 
+  (verifier may work with cred. serv. to verify you)
+verifier communicates with relying party 
+
+
+---
+
+Means of user authentication
+- based on knowledge shared by a computer and user 
+
+4 types of knowledge:
+- something the user knows : password, PIN
+- something the user has   : credit card
+- something the user is    : fingerprint , DNA
+- something the user does  : voice pattern, typing rythm, handwriting
+
+attacks on passwords
+ - guess : online or offline (obtaining password file)
+    + try common passwords
+    + perosnalized guessses
+    + password reuse
+
+ - steal : examples
+    + workstation hijacking
+    + user mistakes
+    + electronic monitoring
+
+People tend to choose weak passwords
+To crack a weak password
+ - no password
+ - same as user id
+ - derived from user id
+ - common word lists ("password") + patterns ("asdfg")
+ - look up words in online dictionary
+ - add capitalization (pAsSwOrD)
+ - add substitution (0 for o)
+
+ - use more powerful hardware 
+    - AMD GPU can try 8.2 E 9 passwords every second
+ - use better algorithms 
+    - model relations b/t letters with hidden Markov chain
+ - leverage exposed passwords
+    - SQL injection on RockYou.com exposes 32 million passwords
